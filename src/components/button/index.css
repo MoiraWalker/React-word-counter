@@ -1,0 +1,11 @@
+.button-primary {
+    padding: 10px 40px 10px 40px;
+    background-color: lightcoral;
+    font-size: 16px;
+    color: white;
+    font-family: Bahnschrift;
+}
+
+.button-primary:hover {
+    background-color: indianred;
+}

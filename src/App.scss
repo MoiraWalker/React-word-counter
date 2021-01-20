@@ -1,0 +1,12 @@
+@import "styles/base/reset";
+@import "styles/base/typography";
+
+.app {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  height: 100vh;
+  background-color: #2E4053;
+}
+
