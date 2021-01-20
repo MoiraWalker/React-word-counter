@@ -1,6 +1,6 @@
 import React from 'react';
 import './index.css';
 
-export const Button = ({ children, type = 'submit'}) => (
-    <button className="button-primary" type={type}>{children}</button>
+export const Button = ({ children, className, onClick, type = 'submit'}) => (
+    <button className={className} type={type} onClick={onClick}>{children}</button>
 );

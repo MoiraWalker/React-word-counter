@@ -1,14 +1,16 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './index.scss';
-import {useForm, FormProvider, get} from 'react-hook-form';
+import {useForm} from 'react-hook-form';
 import {Button} from "../button";
 import {ButtonWrapper} from "../buttonWrapper";
-
 
 export const WordCount = ({}) => {
     const { register, reset, handleSubmit } = useForm();
     const [ highestFreq, setHighestFreq ] = useState(0);
     const [ mostFreqNWords, setMostFreqNWords ] = useState("0");
+    const [ specifiedWord, setSpecifiedWord ] = useState("");
+    const [ specifiedWordFreq, setSpecifiedWordFreq ] = useState("0");
+    const [ demoText, setDemoText ] = useState("")
 
     let frequency = {};
     let keys = [];
@@ -36,6 +38,8 @@ export const WordCount = ({}) => {
 
         // calculate most frequent n words
         calculateMostFrequentNWordsToString();
+
+        calculateFrequencyForWord(specifiedWord);
     }
 
     function getWords(data) {
@@ -77,6 +81,7 @@ export const WordCount = ({}) => {
         setHighestFreq(maxValue);
     }
 
+    // deze functie word niet gebruikt om data door te sluizen naar de user interface in de browser, maar was wel een vereiste in de technische test
     function calculateMostFrequentNWords() {
         let frequent = [];
         let first = [keys[0], values[0]];
@@ -96,30 +101,44 @@ export const WordCount = ({}) => {
     function calculateFrequencyForWord(word){
         if (keys.includes(word)) {
             let index = keys.indexOf(word);
-            return values[index];
+            specifiedWordFreq(values[index]);
         }
+    }
+
+    function onReset(){
+        setHighestFreq(0);
+        setMostFreqNWords("0");
+        setDemoText("");
+    }
+
+    function useDemoText() {
+        setDemoText("Hello this is demo");
     }
 
     return (
         <div>
             <form className="word-count" onSubmit={handleSubmit(onSucces)}>
+                <ButtonWrapper>
+                    <Button className="button button-secondary" type="button" onClick={useDemoText} >Use Demo Text</Button>
+                    <Button className="button button-secondary" type="reset" onClick={onReset}>Reset</Button>
+                </ButtonWrapper>
                 <textarea
                     name="textInput"
                     placeholder="Type your text here ... "
-                    rows="20"
+                    rows="15"
                     cols="60"
+                    value={demoText}
+                    onChange={(e) => setDemoText(e.target.value)}
                     ref={register}
                 ></textarea>
                 <ButtonWrapper>
-                    <Button>Submit</Button>
-                    {/*<Button>Use Demo Text</Button>*/}
-                    {/*<Button>Reset</Button>*/}
+                    <Button className="button button-primary">Submit</Button>
                 </ButtonWrapper>
             </form>
             <div>
                 <ul>
                     <li>
-                        <p className="title">Higest frequency: </p>
+                        <p className="title">Highest frequency: </p>
                         <p className="answer">{highestFreq}</p>
                     </li>
                     <li>
@@ -127,17 +146,18 @@ export const WordCount = ({}) => {
                         <p className="answer">{mostFreqNWords} </p>
                     </li>
                     <li>
-                        {/*<p className="title">The word</p>*/}
-                        {/*<input*/}
-                        {/*    type="text"*/}
-                        {/*    id="specified-word"*/}
-                        {/*    name="specified-word"*/}
-                        {/*    value={specifiedWord}*/}
-                        {/*    onChange={(e) => setSpecifiedWord(e.target.value)}*/}
-                        {/*    placeholder="type here"*/}
-                        {/*></input>*/}
-                        {/*<p className="title"> has a frequency of</p>*/}
-                        {/*<p className="answer">{specifiedWord}</p>*/}
+                        <p className="title">The word</p>
+                        <input
+                            type="text"
+                            id="specified-word"
+                            name="specified-word"
+                            value={specifiedWord}
+                            // onChange={(e) => setSpecifiedWord(e.target.value)}
+                            onChange={(e) => calculateFrequencyForWord(e.target.value)}
+                            placeholder="type word here"
+                        ></input>
+                        <p className="title"> has a frequency of</p>
+                        <p className="answer">{specifiedWordFreq}</p>
                     </li>
                 </ul>
             </div>

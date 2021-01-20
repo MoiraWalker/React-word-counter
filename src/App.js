@@ -1,5 +1,5 @@
 import './App.scss';
-import {WordCount} from "./components/wordCount";
+import {WordCount} from "./components/wordCount/wordCount";
 
 function App() {
   return (

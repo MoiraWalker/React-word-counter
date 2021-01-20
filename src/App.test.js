@@ -1,5 +1,5 @@
 import App from './App';
-import { WordCount } from "./components/wordCount";
+import { WordCount } from "./components/wordCount/wordCount";
 import Enzyme, { shallow } from 'enzyme';
 import Adapter from '@wojtekmaj/enzyme-adapter-react-17';
 
