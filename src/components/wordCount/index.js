@@ -21,11 +21,12 @@ export const WordCount = ({}) => {
         // calculate frequendy of words, creates a value and key structure
         getFrequency(allWords);
 
+        // sort keys alphabetically
+        keys.sort();
+
         // sort frequency from high to low
         sortFrequencyFromHighToLow(keys, frequency);
 
-        // sort keys alphabetically
-        keys.sort();
 
         // assign values to array and return values
         getValues(keys);
