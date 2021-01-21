@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import './wordCount.scss';
-import { useForm } from 'react-hook-form';
 import { Button } from "../button/button";
 import { ButtonWrapper } from "../buttonWrapper/buttonWrapper";
+import { useForm, FormProvider } from 'react-hook-form';
 
 export const WordCount = ({}) => {
-    const { register, handleSubmit } = useForm();
+    const { register, handleSubmit, errors } = useForm();
     const [ highestFreq, setHighestFreq ] = useState(0);
     const [ mostFreqNWords, setMostFreqNWords ] = useState("0");
     const [ specifiedWord, setSpecifiedWord ] = useState("");
@@ -13,6 +13,7 @@ export const WordCount = ({}) => {
     const [ demoText, setDemoText ] = useState("");
     const [ cloneKeys, setCloneKeys ] = useState([]);
     const [ cloneValues, setCloneValues ] = useState([]);
+    const [ checkWord, setCheckWord ] = useState("");
 
     let frequency = {};
     let keys = [];
@@ -51,6 +52,10 @@ export const WordCount = ({}) => {
 
         // reset specified word
         setSpecifiedWord("");
+    }
+
+    const onError = (errorList) => {
+        console.log(errorList)
     }
 
     function getWords(data) {
@@ -134,7 +139,11 @@ export const WordCount = ({}) => {
         if (cloneKeys.includes(word)) {
             let index = cloneKeys.indexOf(word);
             setSpecifiedWordFreq(cloneValues[index]);
+            setCheckWord("");
+        } else if (word === "") {
+            setCheckWord("");
         } else {
+            setCheckWord("Input text doesn't contain you specified word, please try another word");
             setSpecifiedWordFreq(0);
         }
     }
@@ -152,7 +161,7 @@ export const WordCount = ({}) => {
 
     return (
         <div>
-            <form className="word-count" onSubmit={handleSubmit(onSucces)}>
+            <form className="word-count" onSubmit={handleSubmit(onSucces, onError)}>
                 <ButtonWrapper>
                     <Button id="demo-button" className="button button-secondary" type="button" onClick={useDemoText}>Use Demo Text</Button>
                     <Button id="reset-button" className="button button-secondary" type="reset" onClick={onReset}>Reset</Button>
@@ -165,12 +174,11 @@ export const WordCount = ({}) => {
                     cols="60"
                     value={demoText}
                     onChange={(e) => setDemoText(e.target.value)}
-                    ref={
-                        register({
-                            required: true
-                        })
-                    }
+                    ref={ register({
+                            required: true,
+                        })}
                 ></textarea>
+                 {errors.textArea?.type === "required" && <p className="error-message">Your input is required</p>}
                 <ButtonWrapper>
                     <Button className="button button-primary">Submit</Button>
                 </ButtonWrapper>
@@ -190,7 +198,7 @@ export const WordCount = ({}) => {
                         <input
                             type="text"
                             id="specified-word"
-                            name="specified-word"
+                            name="specifiedWord"
                             value={specifiedWord}
                             onChange={(e) => {
                                 setSpecifiedWord(e.target.value);
@@ -201,6 +209,7 @@ export const WordCount = ({}) => {
                         <p className="title">has a frequency of</p>
                         <p className="answer">{specifiedWordFreq}</p>
                     </li>
+                    <p className="error-message">{checkWord}</p>
                 </ul>
             </div>
         </div>
