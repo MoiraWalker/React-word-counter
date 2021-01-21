@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import './index.scss';
-import {useForm} from 'react-hook-form';
-import {Button} from "../button";
-import {ButtonWrapper} from "../buttonWrapper";
+import './wordCount.scss';
+import { useForm } from 'react-hook-form';
+import { Button } from "../button/button";
+import { ButtonWrapper } from "../buttonWrapper/buttonWrapper";
 
 export const WordCount = ({}) => {
-    const { register, reset, handleSubmit } = useForm();
+    const { register, handleSubmit } = useForm();
     const [ highestFreq, setHighestFreq ] = useState(0);
     const [ mostFreqNWords, setMostFreqNWords ] = useState("0");
     const [ specifiedWord, setSpecifiedWord ] = useState("");
@@ -46,7 +46,7 @@ export const WordCount = ({}) => {
         // create a clone of keys so calculateFrequencyForWord can access them
         setCloneKeys([...keys]);
 
-        // create a clone of values so calculateFrequencyForWord can acces them
+        // create a clone of values so calculateFrequencyForWord can access them
         setCloneValues([...values]);
 
         // reset specified word
@@ -54,7 +54,7 @@ export const WordCount = ({}) => {
     }
 
     function getWords(data) {
-        let words = data.textInput.split(/[0-9\W+]/g);
+        let words = data.textArea.split(/[0-9\W+]/g);
         return words.filter(e =>  e);
     }
 
@@ -79,10 +79,6 @@ export const WordCount = ({}) => {
         return frequency;
     }
 
-    // export const hello = () => (
-    //     return word;
-    // );
-
     function sortFrequencyFromHighToLow(keys, frequency) {
         keys.sort(function (a,b) {
             let frequencyA = frequency[a];
@@ -104,7 +100,8 @@ export const WordCount = ({}) => {
         setHighestFreq(maxValue);
     }
 
-    // This function is not used to pass data to the browserinterface. It demonstrates the output which was asked in the test.
+    // This function is not called to pass data to the browser interface.
+    // This function demonstrates the output asked for in the technical test description.
     function calculateMostFrequentNWords() {
         let frequent = [];
         let first = [keys[0], values[0]];
@@ -120,13 +117,13 @@ export const WordCount = ({}) => {
         let str = "";
             for (let i = 0; i < keys.length; i++ ) {
                 if (keys.length >= 3 ) {
-                    str = `${keys[0]}, ${values[0]} /  ${keys[1]}, ${values[1]} /  ${keys[2]}, ${values[2]}`;
+                    str = `${keys[0]}, ${values[0]} / ${keys[1]}, ${values[1]} / ${keys[2]}, ${values[2]}`;
                 }
                 else if (keys.length === 2) {
-                    str =`${keys[0]}, ${values[0]} /  ${keys[1]}, ${values[1]} `;
+                    str =`${keys[0]}, ${values[0]} / ${keys[1]}, ${values[1]}`;
                 }
                 else if (keys.length === 1) {
-                    str = `${keys[0]}, ${values[0]}  `;
+                    str = `${keys[0]}, ${values[0]}`;
                 }
         }
         setMostFreqNWords(str);
@@ -150,18 +147,19 @@ export const WordCount = ({}) => {
     }
 
     function useDemoText() {
-        setDemoText("This is demo text with numbers 123456, dividers, special characters, @#$%^^&*(), quotes '' and more! You can add or adjust this text. Or press 'reset' to type your text. Have fun!");
+       setDemoText("This is demo text with numbers 123456, dividers, special characters, @#$%^^&*(), quotes '' and more! You can add or adjust this text. Or press 'reset' to type your text. Have fun!");
     }
 
     return (
         <div>
             <form className="word-count" onSubmit={handleSubmit(onSucces)}>
                 <ButtonWrapper>
-                    <Button className="button button-secondary" type="button" onClick={useDemoText} >Use Demo Text</Button>
-                    <Button className="button button-secondary" type="reset" onClick={onReset}>Reset</Button>
+                    <Button id="demo-button" className="button button-secondary" type="button" onClick={useDemoText}>Use Demo Text</Button>
+                    <Button id="reset-button" className="button button-secondary" type="reset" onClick={onReset}>Reset</Button>
                 </ButtonWrapper>
                 <textarea
-                    name="textInput"
+                    id="text-area"
+                    name="textArea"
                     placeholder="Type your text here ... "
                     rows="15"
                     cols="60"
@@ -180,8 +178,8 @@ export const WordCount = ({}) => {
             <div>
                 <ul>
                     <li>
-                        <p className="title">Highest frequency: </p>
-                        <p className="answer">{highestFreq}</p>
+                        <p id="highest-freq" className="title">Highest frequency:</p>
+                        <p id="highest-freq-answer" className="answer">{highestFreq}</p>
                     </li>
                     <li>
                         <p className="title">Most frequent N words: </p>
@@ -206,6 +204,5 @@ export const WordCount = ({}) => {
                 </ul>
             </div>
         </div>
-
     );
 };

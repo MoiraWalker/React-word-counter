@@ -1,5 +1,5 @@
 import React from 'react';
-import './index.scss';
+import './errorMessage.scss';
 
 export const ErrorMessage = ({ children }) => (
     <p className="error-message">

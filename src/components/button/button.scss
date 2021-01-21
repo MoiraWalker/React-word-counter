@@ -1,0 +1,27 @@
+@import "../../styles/abstracts/_variables.scss";
+
+.button{
+    font-size: 1.6rem;
+    color: white;
+    outline: none;
+    border: none;
+}
+
+.button-primary {
+    background-color: $button-primary;
+    padding: 1rem 8rem;
+}
+
+.button-primary:hover {
+    background-color: $button-primary-hover;
+}
+
+.button-secondary {
+    background-color: $button-color-secondary;
+    padding: 0.6rem 2rem;
+    margin: 0 1rem;
+}
+
+.button-secondary:hover{
+    background-color: $button-color-secondary-hover;
+}
