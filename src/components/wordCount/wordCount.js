@@ -45,6 +45,9 @@ export const WordCount = ({}) => {
 
         // create a clone of values so calculateFrequencyForWord can acces them
         setCloneValues([...values]);
+
+        // reset specified word
+        setSpecifiedWord("");
     }
 
     function getWords(data) {
@@ -64,6 +67,11 @@ export const WordCount = ({}) => {
         }
         return frequency;
     }
+
+
+    // export const hello = () => (
+    //     return word;
+    // );
 
     function sortFrequencyFromHighToLow(keys, frequency) {
         keys.sort(function (a,b) {
@@ -99,17 +107,28 @@ export const WordCount = ({}) => {
     }
 
     function calculateMostFrequentNWordsToString() {
-        let str = `${keys[0]}, ${values[0]} /  ${keys[1]}, ${values[1]} /  ${keys[2]}, ${values[2]}`;
+        let str = "";
+            for (let i = 0; i < keys.length; i++ ) {
+                if (keys.length >= 3 ) {
+                    str = `${keys[0]}, ${values[0]} /  ${keys[1]}, ${values[1]} /  ${keys[2]}, ${values[2]}`;
+                }
+                else if (keys.length === 2) {
+                    str =`${keys[0]}, ${values[0]} /  ${keys[1]}, ${values[1]} `;
+                }
+                else if (keys.length === 1) {
+                    str = `${keys[0]}, ${values[0]}  `;
+                }
+        }
         setMostFreqNWords(str);
     }
 
     function calculateFrequencyForWord(word){
+        console.log("word ", word);
         if (cloneKeys.includes(word)) {
-            console.log(word , "is included");
             let index = cloneKeys.indexOf(word);
             setSpecifiedWordFreq(cloneValues[index]);
         } else {
-            return "Word is not included in input text"
+            setSpecifiedWordFreq(0);
         }
     }
 
@@ -117,6 +136,7 @@ export const WordCount = ({}) => {
         setHighestFreq(0);
         setMostFreqNWords("0");
         setDemoText("");
+        setSpecifiedWord("");
     }
 
     function useDemoText() {
@@ -137,7 +157,11 @@ export const WordCount = ({}) => {
                     cols="60"
                     value={demoText}
                     onChange={(e) => setDemoText(e.target.value)}
-                    ref={register}
+                    ref={
+                        register({
+                            required: true
+                        })
+                    }
                 ></textarea>
                 <ButtonWrapper>
                     <Button className="button button-primary">Submit</Button>
@@ -162,11 +186,11 @@ export const WordCount = ({}) => {
                             value={specifiedWord}
                             onChange={(e) => {
                                 setSpecifiedWord(e.target.value);
-                                console.log("calc" , calculateFrequencyForWord(specifiedWord));
+                                calculateFrequencyForWord(e.target.value);
                             }}
                             placeholder="type word here"
                         ></input>
-                        <p className="title"> has a frequency of</p>
+                        <p className="title">has a frequency of</p>
                         <p className="answer">{specifiedWordFreq}</p>
                     </li>
                 </ul>
