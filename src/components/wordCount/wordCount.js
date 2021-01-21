@@ -22,8 +22,11 @@ export const WordCount = ({}) => {
         // convert data to array of words
         let allWords= getWords(data);
 
-        // calculate frequendy of words, creates a value and key structure
-        getFrequency(allWords);
+        // convert words to lowercase
+        let allLowerCaseWords = setToLowerCase(allWords);
+
+        // calculate frequency of words, creates a value and key structure
+        getFrequency(allLowerCaseWords);
 
         // sort keys alphabetically
         keys.sort();
@@ -55,8 +58,16 @@ export const WordCount = ({}) => {
         return words.filter(e =>  e);
     }
 
+    function setToLowerCase(words) {
+        let lowerCaseWords = [];
+            for (let i=0; i <  words.length; i++ ) {
+                lowerCaseWords.push(words[i].toLowerCase());
+            }
+        return lowerCaseWords;
+    }
+
     function getFrequency(words){
-        for (let i = 0; i <words.length; i++) {
+        for (let i = 0; i < words.length; i++) {
             let word = words[i];
             if (frequency[word] === undefined) {
                 frequency[word] = 1;
@@ -67,7 +78,6 @@ export const WordCount = ({}) => {
         }
         return frequency;
     }
-
 
     // export const hello = () => (
     //     return word;
@@ -94,7 +104,7 @@ export const WordCount = ({}) => {
         setHighestFreq(maxValue);
     }
 
-    // deze functie word niet gebruikt om data door te sluizen naar de user interface in de browser, maar was wel een vereiste in de technische test
+    // This function is not used to pass data to the browserinterface. It demonstrates the output which was asked in the test.
     function calculateMostFrequentNWords() {
         let frequent = [];
         let first = [keys[0], values[0]];
@@ -122,8 +132,8 @@ export const WordCount = ({}) => {
         setMostFreqNWords(str);
     }
 
-    function calculateFrequencyForWord(word){
-        console.log("word ", word);
+    function calculateFrequencyForWord(data){
+        let word = data.toLowerCase();
         if (cloneKeys.includes(word)) {
             let index = cloneKeys.indexOf(word);
             setSpecifiedWordFreq(cloneValues[index]);
