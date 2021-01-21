@@ -10,7 +10,9 @@ export const WordCount = ({}) => {
     const [ mostFreqNWords, setMostFreqNWords ] = useState("0");
     const [ specifiedWord, setSpecifiedWord ] = useState("");
     const [ specifiedWordFreq, setSpecifiedWordFreq ] = useState("0");
-    const [ demoText, setDemoText ] = useState("")
+    const [ demoText, setDemoText ] = useState("");
+    const [ cloneKeys, setCloneKeys ] = useState([]);
+    const [ cloneValues, setCloneValues ] = useState([]);
 
     let frequency = {};
     let keys = [];
@@ -29,7 +31,6 @@ export const WordCount = ({}) => {
         // sort frequency from high to low
         sortFrequencyFromHighToLow(keys, frequency);
 
-
         // assign values to array and return values
         getValues(keys);
 
@@ -39,7 +40,11 @@ export const WordCount = ({}) => {
         // calculate most frequent n words
         calculateMostFrequentNWordsToString();
 
-        calculateFrequencyForWord(specifiedWord);
+        // create a clone of keys so calculateFrequencyForWord can access them
+        setCloneKeys([...keys]);
+
+        // create a clone of values so calculateFrequencyForWord can acces them
+        setCloneValues([...values]);
     }
 
     function getWords(data) {
@@ -99,9 +104,12 @@ export const WordCount = ({}) => {
     }
 
     function calculateFrequencyForWord(word){
-        if (keys.includes(word)) {
-            let index = keys.indexOf(word);
-            specifiedWordFreq(values[index]);
+        if (cloneKeys.includes(word)) {
+            console.log(word , "is included");
+            let index = cloneKeys.indexOf(word);
+            setSpecifiedWordFreq(cloneValues[index]);
+        } else {
+            return "Word is not included in input text"
         }
     }
 
@@ -112,7 +120,7 @@ export const WordCount = ({}) => {
     }
 
     function useDemoText() {
-        setDemoText("Hello this is demo");
+        setDemoText("This is demo text with numbers 123456, dividers, special characters, @#$%^^&*(), quotes '' and more! You can add or adjust this text. Or press 'reset' to type your text. Have fun!");
     }
 
     return (
@@ -152,8 +160,10 @@ export const WordCount = ({}) => {
                             id="specified-word"
                             name="specified-word"
                             value={specifiedWord}
-                            // onChange={(e) => setSpecifiedWord(e.target.value)}
-                            onChange={(e) => calculateFrequencyForWord(e.target.value)}
+                            onChange={(e) => {
+                                setSpecifiedWord(e.target.value);
+                                console.log("calc" , calculateFrequencyForWord(specifiedWord));
+                            }}
                             placeholder="type word here"
                         ></input>
                         <p className="title"> has a frequency of</p>
