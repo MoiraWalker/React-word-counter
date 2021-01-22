@@ -5,7 +5,7 @@ import { ButtonWrapper } from "../buttonWrapper/buttonWrapper";
 import { useForm } from 'react-hook-form';
 
 export const WordCount = ({}) => {
-    const { register, handleSubmit, errors } = useForm();
+    const { register, handleSubmit, errors, setValue } = useForm();
     const [ highestFreq, setHighestFreq ] = useState(0);
     const [ mostFreqNWords, setMostFreqNWords ] = useState("0");
     const [ specifiedWord, setSpecifiedWord ] = useState("");
@@ -156,7 +156,7 @@ export const WordCount = ({}) => {
     }
 
     function useDemoText() {
-       setDemoText("This is demo text with numbers 123456, dividers, special characters, @#$%^^&*(), quotes '' and more! It also contains several words writen with a different combination of capital letters: HALLO, hallo, hAllO. You can add or adjust this text. Or press 'reset' to type your text. Have fun!");
+        setValue("textArea", "This is demo text with numbers 123456, dividers, special characters, @#$%^^&*(), quotes '' and more! It also contains several words writen with a different combination of capital letters: HALLO, hallo, hAllO. You can add or adjust this text. Or press 'reset' to type your text. Have fun!");
     }
 
     return (
@@ -172,8 +172,6 @@ export const WordCount = ({}) => {
                     placeholder="Type your text here ... "
                     rows="15"
                     cols="60"
-                    value={demoText}
-                    onChange={(e) => setDemoText(e.target.value)}
                     ref={ register({
                             required: true,
                         })}
