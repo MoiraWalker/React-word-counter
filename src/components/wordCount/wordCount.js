@@ -10,7 +10,6 @@ export const WordCount = ({}) => {
     const [ mostFreqNWords, setMostFreqNWords ] = useState("0");
     const [ specifiedWord, setSpecifiedWord ] = useState("");
     const [ specifiedWordFreq, setSpecifiedWordFreq ] = useState("0");
-    const [ demoText, setDemoText ] = useState("");
     const [ cloneKeys, setCloneKeys ] = useState([]);
     const [ cloneValues, setCloneValues ] = useState([]);
     const [ checkWord, setCheckWord ] = useState("");
@@ -151,7 +150,6 @@ export const WordCount = ({}) => {
     function onReset(){
         setHighestFreq(0);
         setMostFreqNWords("0");
-        setDemoText("");
         setSpecifiedWord("");
     }
 
