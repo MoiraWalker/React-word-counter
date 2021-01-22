@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import './wordCount.scss';
 import { Button } from "../button/button";
 import { ButtonWrapper } from "../buttonWrapper/buttonWrapper";
-import { useForm, FormProvider } from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 
 export const WordCount = ({}) => {
     const { register, handleSubmit, errors } = useForm();
@@ -20,7 +20,7 @@ export const WordCount = ({}) => {
     let values = [];
 
     function onSucces(data) {
-        // convert data to array of words
+        // convert input data to array of words
         let allWords= getWords(data);
 
         // convert words to lowercase
@@ -106,7 +106,7 @@ export const WordCount = ({}) => {
     }
 
     // This function is not called to pass data to the browser interface.
-    // This function demonstrates the output asked for in the technical test description.
+    // It demonstrates the output asked for in the technical test description.
     function calculateMostFrequentNWords() {
         let frequent = [];
         let first = [keys[0], values[0]];
@@ -143,7 +143,7 @@ export const WordCount = ({}) => {
         } else if (word === "") {
             setCheckWord("");
         } else {
-            setCheckWord("Input text doesn't contain you specified word, please try another word");
+            setCheckWord("Input text doesn't contain specified word, try again");
             setSpecifiedWordFreq(0);
         }
     }
@@ -156,7 +156,7 @@ export const WordCount = ({}) => {
     }
 
     function useDemoText() {
-       setDemoText("This is demo text with numbers 123456, dividers, special characters, @#$%^^&*(), quotes '' and more! You can add or adjust this text. Or press 'reset' to type your text. Have fun!");
+       setDemoText("This is demo text with numbers 123456, dividers, special characters, @#$%^^&*(), quotes '' and more! It also contains several words writen with a different combination of capital letters: HALLO, hallo, hAllO. You can add or adjust this text. Or press 'reset' to type your text. Have fun!");
     }
 
     return (
@@ -180,7 +180,7 @@ export const WordCount = ({}) => {
                 ></textarea>
                  {errors.textArea?.type === "required" && <p className="error-message">Your input is required</p>}
                 <ButtonWrapper>
-                    <Button className="button button-primary">Submit</Button>
+                    <Button className="button button-primary">Calculate words</Button>
                 </ButtonWrapper>
             </form>
             <div>
@@ -209,7 +209,7 @@ export const WordCount = ({}) => {
                         <p className="title">has a frequency of</p>
                         <p className="answer">{specifiedWordFreq}</p>
                     </li>
-                    <p className="error-message">{checkWord}</p>
+                    <p className="hint-message">{checkWord}</p>
                 </ul>
             </div>
         </div>

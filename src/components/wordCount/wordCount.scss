@@ -19,13 +19,12 @@ li {
 }
 
 .title {
-  color: #caf3ff;
-  font-size: 1.5rem;
+  color: white;
   padding-right: 1rem;
 }
 
 .answer {
-  color: white;
+  color: #29c6aa;
 }
 
 input {
@@ -35,5 +34,10 @@ input {
 
 .error-message {
   color: indianred;
-  padding-top: 0.8rem;
+  padding-top: 2rem;
+}
+
+.hint-message {
+  color: #9cd1ff;
+  padding-top: 1rem;
 }
