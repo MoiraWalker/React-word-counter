@@ -32,9 +32,6 @@ test( 'test textArea input from user and then reset it', () => {
 })
 
 test('test if demo text is sucessfully loaded', () => {
-    const textAreaInput = simulateChangeOnTextArea(wrapper, '#text-area', "This is a test")
-    expect(textAreaInput.props().value).toEqual("This is a test")
-
     const demoBtn = wrapper.find('#demo-button')
     demoBtn.simulate('click')
     expect(wrapper.find('#text-area').props().value).toBeTruthy();
